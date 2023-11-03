@@ -1,0 +1,8 @@
+services:
+  pokemon_go_db:
+    image: postgres:13
+    ports:
+      - 5445:5432
+    environment:
+      POSTGRES_USER: pokemon_go_app
+      POSTGRES_PASSWORD: 123

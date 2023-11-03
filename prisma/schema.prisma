@@ -1,0 +1,66 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum POKEMON_TYPE {
+  GRASS
+  FIRE
+  WATER
+  BUG
+  NORMAL
+  POISON
+  ELECTRIC
+  GROUND
+  FAIRY
+  FIGHTING
+  PSYCHIC
+  ROCK
+  GHOST
+  ICE
+  DRAGON
+  DARK
+  STEEL
+  FLYING
+}
+
+model Pokemon {
+  pokemonId      Int            @id @default(autoincrement()) @map("pokemon_id")
+  name           String         @map("name") @unique
+  pokedexNumber  Int            @map("pokedex_number")
+  imgName        String         @map("img_name")
+  generation     Int            @map("generation")
+  evolutionStage String?        @map("evolution_stage")
+  evolved        Int            @map("evolved")
+  familyID       Int?           @map("family_id")
+  crossGen       Int            @map("cross_gen")
+  type1          POKEMON_TYPE   @map("type1")
+  type2          POKEMON_TYPE?  @map("type2")
+  weather1       String         @map("weather1")
+  weather2       String?        @map("weather2")
+  statTotal      Int            @map("stat_total")
+  atk            Int            @map("atk")
+  def            Int            @map("def")
+  sta            Int            @map("sta")
+  legendary      Int            @map("legendary")
+  acquireable    Int            @map("acquireable")
+  spawns         Int            @map("spawns")
+  regional       Int            @map("regional")
+  raidable       Int            @map("raidable")
+  hatchable      Int            @map("hatchable")
+  shiny          Int            @map("shiny")
+  nest           Int            @map("nest")
+  new            Int            @map("new")
+  notGettable    Int            @map("not_gettable")
+  futureEvolve   Int            @map("future_evolve")
+  cp40           Int            @map("cp_40")
+  cp39           Int            @map("cp_39")
+  dateCreated    DateTime       @default(now()) @map("date_created") @db.Timestamp(3)
+  dateUpdated    DateTime       @updatedAt @map("date_updated")
+  @@map("pokemons")
+
+}
