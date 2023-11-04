@@ -1,14 +1,91 @@
+import { Prisma, POKEMON_TYPE } from '@prisma/client';
 import {
   Injectable,
   NotFoundException,
   InternalServerErrorException,
 } from '@nestjs/common';
-import { PrismaService } from 'src/prisma/prisma.service';
-import { CreatePokemonDto, UpdatePokemonDto } from './dto';
+import { PrismaService } from '../../prisma/prisma.service';
+import { CreatePokemonDto, UpdatePokemonDto, ListPokemonsDto } from './dto';
 
 @Injectable()
 export class PokemonV1Service {
   constructor(private readonly prisma: PrismaService) {}
+
+  async listPokemons(query: ListPokemonsDto) {
+    try {
+      const {
+        offset = 0,
+        limit = 10,
+        sort,
+        order = 'asc',
+        name,
+        pokemonIds,
+        type1,
+        type2,
+        weather1,
+        weather2,
+        pokedexNumber,
+        statTotal,
+        minStatTotal,
+        maxStatTotal,
+      } = query;
+      let pokemonIdArray: number[] = [];
+
+      if (pokemonIds) {
+        pokemonIdArray = pokemonIds
+          .split(',')
+          .map((id) => parseInt(id.trim(), 10));
+      }
+
+      const whereClause: Prisma.PokemonWhereInput = {
+        name: { contains: name, mode: 'insensitive' },
+        type1: type1 as POKEMON_TYPE,
+        type2: type2 as POKEMON_TYPE,
+        weather1: {
+          equals: weather1,
+          mode: 'insensitive',
+        },
+        weather2: {
+          equals: weather2,
+          mode: 'insensitive',
+        },
+        pokedexNumber,
+        ...(pokemonIdArray.length
+          ? {
+              pokemonId: {
+                in: pokemonIdArray,
+              },
+            }
+          : {}),
+        ...(statTotal && { statTotal }),
+        ...((minStatTotal || maxStatTotal) && {
+          statTotal: { gte: minStatTotal, lte: maxStatTotal },
+        }),
+      };
+      const pokemons = await this.prisma.pokemon.findMany({
+        where: whereClause,
+        skip: offset,
+        take: limit,
+        orderBy: sort ? { [sort]: order || 'asc' } : undefined,
+      });
+
+      const totalCount = await this.prisma.pokemon.count({
+        where: whereClause,
+      });
+
+      return {
+        totalCount,
+        data: pokemons,
+      };
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        throw error;
+      }
+      throw new InternalServerErrorException(
+        `Error retrieving the Pokemons: ${error.message}`,
+      );
+    }
+  }
 
   async getPokemonById(pokemonId: number) {
     try {
@@ -22,7 +99,10 @@ export class PokemonV1Service {
 
       return pokemon;
     } catch (error) {
-      if (error instanceof NotFoundException) {
+      if (
+        error instanceof Prisma.PrismaClientKnownRequestError ||
+        error instanceof NotFoundException
+      ) {
         throw error;
       }
       throw new InternalServerErrorException(
@@ -38,8 +118,14 @@ export class PokemonV1Service {
       });
       return newPokemon;
     } catch (error) {
+      if (
+        error instanceof Prisma.PrismaClientKnownRequestError ||
+        error instanceof NotFoundException
+      ) {
+        throw error;
+      }
       throw new InternalServerErrorException(
-        `Error creating the Pokemon: ${error.message}`,
+        `Error updating the Pokemon: ${error.message}`,
       );
     }
   }
@@ -59,7 +145,10 @@ export class PokemonV1Service {
         data: updatePokemonDto,
       });
     } catch (error) {
-      if (error instanceof NotFoundException) {
+      if (
+        error instanceof Prisma.PrismaClientKnownRequestError ||
+        error instanceof NotFoundException
+      ) {
         throw error;
       }
       throw new InternalServerErrorException(
@@ -74,7 +163,9 @@ export class PokemonV1Service {
         where: { pokemonId },
       });
     } catch (error) {
-      console.error('Error deleting the Pokemon:', error.message);
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        throw error;
+      }
       throw new InternalServerErrorException(
         `An error occurred while deleting the Pokemon ${error.message}`,
       );
