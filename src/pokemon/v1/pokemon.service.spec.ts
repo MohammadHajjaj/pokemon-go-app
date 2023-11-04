@@ -42,7 +42,6 @@ describe('PokemonV1Service', () => {
 
   describe('listPokemons', () => {
     it('should return a list of pokemons and totalCount', async () => {
-      // Arrange
       const query = { limit: 10, offset: 0 };
       const totalCount = 2;
 
