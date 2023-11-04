@@ -6,3 +6,10 @@ services:
     environment:
       POSTGRES_USER: pokemon_go_app
       POSTGRES_PASSWORD: 123
+  pokemon_go_test_db:
+    image: postgres:13
+    ports:
+      - 5446:5432
+    environment:
+      POSTGRES_USER: pokemon_go_app
+      POSTGRES_PASSWORD: 123
