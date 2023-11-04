@@ -32,7 +32,7 @@ describe('PokemonV1Controller (e2e)', () => {
     it('GET should retrieve pokemons with optional query params', () => {
       return request(app.getHttpServer())
         .get('/v1/pokemons')
-        .query({ limit: 10, offset: 0 }) 
+        .query({ limit: 10, offset: 0 })
         .expect(HttpStatus.OK)
         .then((response) => {
           expect(response.body).toEqual(expect.any(Object));
