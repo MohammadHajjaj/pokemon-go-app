@@ -4,21 +4,21 @@ import { POKEMON_TYPE } from '@prisma/client';
 export class UpdatePokemonDto {
   @IsOptional()
   @IsString()
-  name: string;
+  name?: string;
 
   @IsOptional()
   @IsInt()
   @Min(0)
-  pokedexNumber: number;
+  pokedexNumber?: number;
 
   @IsOptional()
   @IsString()
-  imgName: string;
+  imgName?: string;
 
   @IsOptional()
   @IsInt()
   @Min(0)
-  generation: number;
+  generation?: number;
 
   @IsOptional()
   @IsString()
@@ -27,7 +27,7 @@ export class UpdatePokemonDto {
   @IsOptional()
   @IsInt()
   @Min(0)
-  evolved: number;
+  evolved?: number;
 
   @IsOptional()
   @IsInt()
@@ -37,7 +37,7 @@ export class UpdatePokemonDto {
   @IsOptional()
   @IsInt()
   @Min(0)
-  crossGen: number;
+  crossGen?: number;
 
   @IsOptional()
   @IsString()
@@ -46,7 +46,7 @@ export class UpdatePokemonDto {
       POKEMON_TYPE,
     ).join(', ')}.`,
   })
-  type1: POKEMON_TYPE;
+  type1?: POKEMON_TYPE;
 
   @IsOptional()
   @IsString()
@@ -59,7 +59,7 @@ export class UpdatePokemonDto {
 
   @IsOptional()
   @IsString()
-  weather1: string;
+  weather1?: string;
 
   @IsOptional()
   @IsString()
@@ -68,85 +68,85 @@ export class UpdatePokemonDto {
   @IsOptional()
   @IsInt()
   @Min(0)
-  statTotal: number;
+  statTotal?: number;
 
   @IsOptional()
   @IsInt()
   @Min(0)
-  atk: number;
+  atk?: number;
 
   @IsOptional()
   @IsInt()
   @Min(0)
-  def: number;
+  def?: number;
 
   @IsOptional()
   @IsInt()
   @Min(0)
-  sta: number;
+  sta?: number;
 
   @IsOptional()
   @IsInt()
   @Min(0)
-  legendary: number;
+  legendary?: number;
 
   @IsOptional()
   @IsInt()
   @Min(0)
-  acquireable: number;
+  acquireable?: number;
 
   @IsOptional()
   @IsInt()
   @Min(0)
-  spawns: number;
+  spawns?: number;
 
   @IsOptional()
   @IsInt()
   @Min(0)
-  regional: number;
+  regional?: number;
 
   @IsOptional()
   @IsInt()
   @Min(0)
-  raidable: number;
+  raidable?: number;
 
   @IsOptional()
   @IsInt()
   @Min(0)
-  hatchable: number;
+  hatchable?: number;
 
   @IsOptional()
   @IsInt()
   @Min(0)
-  shiny: number;
+  shiny?: number;
 
   @IsOptional()
   @IsInt()
   @Min(0)
-  nest: number;
+  nest?: number;
 
   @IsOptional()
   @IsInt()
   @Min(0)
-  new: number;
+  new?: number;
 
   @IsOptional()
   @IsInt()
   @Min(0)
-  notGettable: number;
+  notGettable?: number;
 
   @IsOptional()
   @IsInt()
   @Min(0)
-  futureEvolve: number;
+  futureEvolve?: number;
 
   @IsOptional()
   @IsInt()
   @Min(0)
-  cp40: number;
+  cp40?: number;
 
   @IsOptional()
   @IsInt()
   @Min(0)
-  cp39: number;
+  cp39?: number;
 }
