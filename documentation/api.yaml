@@ -1,0 +1,629 @@
+openapi: 3.0.0
+servers:
+  - url: http://localhost:8080
+info:
+  description: |
+    The full specification of POKEMON GO API.
+  version: 1.0.0
+  title: POKEMON GO API
+  contact:
+    email: hajjaj.mohammad99@gmail.com
+tags:
+  - name: Pokemons
+    description: |
+      The main entity in our apis
+paths:
+  /v1/pokemons:
+    get:
+      summary: List Pokemons
+      tags:
+      - Pokemons
+      parameters:
+      - in: query
+        name: offset
+        schema:
+          type: integer
+          minimum: 0
+        required: false
+        description: The number of items to skip before starting to collect the result set.
+      - in: query
+        name: limit
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+        required: false
+        description: The numbers of items to return.
+      - in: query
+        name: order
+        schema:
+          type: string
+          enum: [asc, desc]
+        required: false
+        description: The order of the returned items, ascending or descending.
+      - in: query
+        name: sort
+        schema:
+          type: string
+        required: false
+        description: The field to sort by.
+      - in: query
+        name: name
+        schema:
+          type: string
+        required: false
+        description: The name to filter by.
+      - in: query
+        name: pokemonIds
+        schema:
+          type: string
+        required: false
+        description: The IDs of the pokemons to filter by (seperated by commas)
+      - in: query
+        name: type1
+        schema:
+          type: string
+          enum:
+            - GRASS
+            - FIRE
+            - WATER
+            - BUG
+            - NORMAL
+            - POISON
+            - ELECTRIC
+            - GROUND
+            - FAIRY
+            - FIGHTING
+            - PSYCHIC
+            - ROCK
+            - GHOST
+            - ICE
+            - DRAGON
+            - DARK
+            - STEEL
+            - FLYING
+        required: false
+        description: The primary type to filter by.
+      - in: query
+        name: type2
+        schema:
+          type: string
+          enum:
+            - GRASS
+            - FIRE
+            - WATER
+            - BUG
+            - NORMAL
+            - POISON
+            - ELECTRIC
+            - GROUND
+            - FAIRY
+            - FIGHTING
+            - PSYCHIC
+            - ROCK
+            - GHOST
+            - ICE
+            - DRAGON
+            - DARK
+            - STEEL
+            - FLYING
+        required: false
+        description: The secondary type to filter by.
+      - in: query
+        name: weather1
+        schema:
+          type: string
+        required: false
+        description: The primary weather to filter by.
+      - in: query
+        name: weather2
+        schema:
+          type: string
+        required: false
+        description: The secondary weather to filter by.
+      - in: query
+        name: pokedexNumber
+        schema:
+          type: integer
+        required: false
+        description: The Pokedex number to filter by.
+      - in: query
+        name: statTotal
+        schema:
+          type: integer
+          minimum: 0
+        required: false
+        description: The total stats to filter by, can only be valid if minStatTotal or maxStatTotal are not present
+      - in: query
+        name: minStatTotal
+        schema:
+          type: integer
+          minimum: 0
+        required: false
+        description: The minimum total stats to filter by.
+      - in: query
+        name: maxStatTotal
+        schema:
+          type: integer
+          minimum: 0
+        required: false
+        description: The maximum total stats to filter by.
+      responses:
+        200:
+         description: Ok
+         content:
+           application/json:
+              schema:
+                $ref: '#/components/schemas/ListPokemons'
+        400:
+         description: Bad Request
+         content:
+           application/json:
+             schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      summary: Create a pokemon
+      tags:
+        - Pokemons
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PokemonCreate'
+        required: true
+      responses:
+        201:
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pokemon'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /v1/pokemons/{pokemonId}:
+    parameters:
+      - in: path
+        name: pokemonId
+        schema:
+          type: integer
+        required: true
+        description: The Pokemon id to retrieve.
+    get:
+      summary: Fetch a pokemon by its id
+      tags:
+        - Pokemons
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pokemon'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      summary: update a pokemon
+      tags:
+        - Pokemons
+      parameters:
+        - in: path
+          name: pokemonId
+          required: true
+          schema:
+            type: integer
+            description: The Pokemon id to update.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PokemonUpdate'
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pokemon'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      summary: delete a pokemon
+      tags:
+        - Pokemons
+      parameters:
+        - in: path
+          name: pokemonId
+          required: true
+          schema:
+            type: integer
+            description: The Pokemon id to update.
+      responses:
+        204:
+          description: No Content
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  parameters:
+    AccountId:
+      name: accountId
+      in: path
+      description: Account ID or code. For ID no prefix is used e.g. `e28zov4fw0v2`.
+        For code use prefix `code-`, e.g. `code-bob`.
+      required: true
+      schema:
+        type: string
+  schemas:
+    PokemonCreate:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Pikachu
+        pokedexNumber:
+          type: integer
+          example: 25
+        imgName:
+          type: string
+          example: pikachu.png
+        generation:
+          type: integer
+          example: 1
+        evolutionStage:
+          type: string
+          example: 'Final'
+        evolved:
+          type: integer
+          example: 1
+        familyID:
+          type: integer
+          example: 1
+        crossGen:
+          type: integer
+          example: 1
+        type1:
+          type: string
+          example: 'Electric'
+        type2:
+          type: string
+          example: 'Flying'
+        weather1:
+          type: string
+          example: 'Sunny'
+        weather2:
+          type: string
+          example: 'Rainy'
+        statTotal:
+          type: integer
+          example: 300
+        atk:
+          type: integer
+          example: 100
+        def:
+          type: integer
+          example: 100
+        sta:
+          type: integer
+          example: 100
+        legendary:
+          type: integer
+          example: 0
+        acquireable:
+          type: integer
+          example: 1
+        spawns:
+          type: integer
+          example: 1
+        regional:
+          type: integer
+          example: 0
+        raidable:
+          type: integer
+          example: 1
+        hatchable:
+          type: integer
+          example: 0
+        shiny:
+          type: integer
+          example: 0
+        nest:
+          type: integer
+          example: 1
+        new:
+          type: integer
+          example: 0
+        notGettable:
+          type: integer
+          example: 0
+        futureEvolve:
+          type: integer
+          example: 0
+        cp40:
+          type: integer
+          example: 2000
+        cp39:
+          type: integer
+          example: 1980
+      required:
+        - name
+        - pokedexNumber
+        - imgName
+        - generation
+        - type1
+        - weather1
+        - statTotal
+        - atk
+        - def
+        - sta
+        - cp40
+        - cp39
+    Pokemon:
+      type: object
+      properties:
+        pokemonId:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: Pikachu
+        pokedexNumber:
+          type: integer
+          example: 25
+        imgName:
+          type: string
+          example: pikachu.png
+        generation:
+          type: integer
+          example: 1
+        evolutionStage:
+          type: string
+          example: 'Final'
+        evolved:
+          type: integer
+          example: 1
+        familyID:
+          type: integer
+          example: 1
+        crossGen:
+          type: integer
+          example: 1
+        type1:
+          type: string
+          example: 'Electric'
+        type2:
+          type: string
+          example: 'Flying'
+        weather1:
+          type: string
+          example: 'Sunny'
+        weather2:
+          type: string
+          example: 'Rainy'
+        statTotal:
+          type: integer
+          example: 300
+        atk:
+          type: integer
+          example: 100
+        def:
+          type: integer
+          example: 100
+        sta:
+          type: integer
+          example: 100
+        legendary:
+          type: integer
+          example: 0
+        acquireable:
+          type: integer
+          example: 1
+        spawns:
+          type: integer
+          example: 1
+        regional:
+          type: integer
+          example: 0
+        raidable:
+          type: integer
+          example: 1
+        hatchable:
+          type: integer
+          example: 0
+        shiny:
+          type: integer
+          example: 0
+        nest:
+          type: integer
+          example: 1
+        new:
+          type: integer
+          example: 0
+        notGettable:
+          type: integer
+          example: 0
+        futureEvolve:
+          type: integer
+          example: 0
+        cp40:
+          type: integer
+          example: 2000
+        cp39:
+          type: integer
+          example: 1980
+    ListPokemons:
+      type: object
+      properties:
+        totalCount:
+          type: integer
+          description: The total number of Pokemons that match the query, regardless of limit and offset.
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Pokemon'
+          description: An array of Pokemons that match the criteria.
+    PokemonUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Pikachu
+        pokedexNumber:
+          type: integer
+          example: 25
+        imgName:
+          type: string
+          example: pikachu.png
+        generation:
+          type: integer
+          example: 1
+        evolutionStage:
+          type: string
+          example: 'Final'
+        evolved:
+          type: integer
+          example: 1
+        familyID:
+          type: integer
+          example: 1
+        crossGen:
+          type: integer
+          example: 1
+        type1:
+          type: string
+          example: 'Electric'
+        type2:
+          type: string
+          example: 'Flying'
+        weather1:
+          type: string
+          example: 'Sunny'
+        weather2:
+          type: string
+          example: 'Rainy'
+        statTotal:
+          type: integer
+          example: 300
+        atk:
+          type: integer
+          example: 100
+        def:
+          type: integer
+          example: 100
+        sta:
+          type: integer
+          example: 100
+        legendary:
+          type: integer
+          example: 0
+        acquireable:
+          type: integer
+          example: 1
+        spawns:
+          type: integer
+          example: 1
+        regional:
+          type: integer
+          example: 0
+        raidable:
+          type: integer
+          example: 1
+        hatchable:
+          type: integer
+          example: 0
+        shiny:
+          type: integer
+          example: 0
+        nest:
+          type: integer
+          example: 1
+        new:
+          type: integer
+          example: 0
+        notGettable:
+          type: integer
+          example: 0
+        futureEvolve:
+          type: integer
+          example: 0
+        cp40:
+          type: integer
+          example: 2000
+        cp39:
+          type: integer
+          example: 1980
+    Error:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          format: int32
+          example: 400
+        message:
+          type: string
+          example: "Error message"
+        error:
+          type: string
+          example: "Bad Request"
