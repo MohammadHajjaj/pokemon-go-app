@@ -1,0 +1,353 @@
+{
+	"info": {
+		"_postman_id": "bf0d3701-6381-4207-b19f-b33be9197b62",
+		"name": "pokemon go apis",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "15561214"
+	},
+	"item": [
+		{
+			"name": "list pokemons",
+			"item": [
+				{
+					"name": "list pokemons (default limit is 10)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/v1/pokemons?limit=10&offset=0",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"pokemons"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "offset",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "filter by pokemon ids",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/v1/pokemons?pokemonIds=5,6,7,8",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"pokemons"
+							],
+							"query": [
+								{
+									"key": "pokemonIds",
+									"value": "5,6,7,8"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "filter by pokedexNumber",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/v1/pokemons?pokedexNumber=412",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"pokemons"
+							],
+							"query": [
+								{
+									"key": "pokedexNumber",
+									"value": "412"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "filter by statTotal (exact amount)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/v1/pokemons?statTotal=403",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"pokemons"
+							],
+							"query": [
+								{
+									"key": "statTotal",
+									"value": "403"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "filter by statTotal (range)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/v1/pokemons?minStatTotal=400&maxStatTotal=405",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"pokemons"
+							],
+							"query": [
+								{
+									"key": "minStatTotal",
+									"value": "400"
+								},
+								{
+									"key": "maxStatTotal",
+									"value": "405"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "sort by column (all columns are sortable)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/v1/pokemons?sort=statTotal&order=desc",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"pokemons"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "statTotal"
+								},
+								{
+									"key": "order",
+									"value": "desc"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "search by name(partial search, case insenseitive)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/v1/pokemons?name=cater",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"pokemons"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "cater"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "filter by type1 (or type2)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/v1/pokemons?type1=GRASS&type2=POISON",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"pokemons"
+							],
+							"query": [
+								{
+									"key": "type1",
+									"value": "GRASS"
+								},
+								{
+									"key": "type2",
+									"value": "POISON"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "filter by weather1 (or weather 2)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/v1/pokemons?weather1=cloudy",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"pokemons"
+							],
+							"query": [
+								{
+									"key": "weather1",
+									"value": "cloudy"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "get pokemon by id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/v1/pokemons/12",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"pokemons",
+						"12"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create pokemon",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"New Pokemon\",\n  \"pokedexNumber\": 412,\n  \"imgName\": \"test-image4\",\n  \"generation\": 1,\n  \"evolutionStage\": \"Stage 1\",\n  \"evolved\": 0,\n  \"familyID\": 1,\n  \"crossGen\": 0,\n  \"type1\": \"GRASS\",\n  \"type2\": \"POISON\",\n  \"weather1\": \"Clear\",\n  \"weather2\": \"Cloudy\",\n  \"statTotal\": 318,\n  \"atk\": 118,\n  \"def\": 111,\n  \"sta\": 128,\n  \"legendary\": 0,\n  \"acquireable\": 1,\n  \"spawns\": 1,\n  \"regional\": 0,\n  \"raidable\": 1,\n  \"hatchable\": 2,\n  \"shiny\": 0,\n  \"nest\": 1,\n  \"new\": 0,\n  \"notGettable\": 0,\n  \"futureEvolve\": 1,\n  \"cp40\": 1115,\n  \"cp39\": 1099\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/v1/pokemons",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"pokemons"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update pokemon by id",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"New Updated Pokemon\",\n  \"pokedexNumber\": 412,\n  \"imgName\": \"update-image\",\n  \"generation\": 1,\n  \"evolutionStage\": \"Stage 1\",\n  \"evolved\": 0,\n  \"familyID\": 1,\n  \"crossGen\": 0,\n  \"type1\": \"WATER\",\n  \"type2\": \"NORMAL\",\n  \"weather1\": \"Sunny\",\n  \"weather2\": null,\n  \"statTotal\": 318,\n  \"atk\": 118,\n  \"def\": 111,\n  \"sta\": 128,\n  \"legendary\": 0,\n  \"acquireable\": 1,\n  \"spawns\": 1,\n  \"regional\": 0,\n  \"raidable\": 1,\n  \"hatchable\": 2,\n  \"shiny\": 0,\n  \"nest\": 1,\n  \"new\": 0,\n  \"notGettable\": 0,\n  \"futureEvolve\": 1,\n  \"cp40\": 1115,\n  \"cp39\": 1099\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/v1/pokemons/18",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"pokemons",
+						"18"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete pokemon by id",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/v1/pokemons/8",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"pokemons",
+						"8"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
